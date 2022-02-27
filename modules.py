@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import chromedriver_binary 
 
 import pandas as pd
 import time
@@ -51,7 +52,7 @@ credentials['楽天'] = {'login_id': login_mail_rakuten, 'password': password_ra
 credentials['afb'] = {'login_id': login_mail_afb, 'password': password_afb}
 credentials['アクトレ'] = {'login_id': login_mail_actrade, 'password': password_actrade}
 
-chromedriver_puth = '/app/.chromedriver/bin/chromedriver'
+chromedriver_puth = 'chromedriver'
 df_dict = {
 'アマゾン':'data_amazon',
  '楽天':'data_rakuten',
@@ -80,7 +81,9 @@ class ASP(metaclass=ABCMeta):
     # self.driver    = self.prepare_driver()
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
-    self.driver = webdriver.Chrome(options)
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    self.driver = webdriver.Chrome(options=options)
     self.driver.implicitly_wait(15)
     self.driver.set_page_load_timeout(15)
     self.driver.set_window_size('1200', '10000')
@@ -102,17 +105,6 @@ class ASP(metaclass=ABCMeta):
     # DataFrame
     self.result_df = None
  
-
-  def prepare_driver(self):
-    # ブラウザをheadlessモード（バックグラウンドで動くモード）で立ち上げる
-    # options.add_argument('--no-sandbox')
-    # options.add_argument('--disable-dev-shm-usage')
-    # driver = webdriver.Chrome('chromedriver',options=options)
-    driver = webdriver.Chrome()
-    driver.implicitly_wait(15)
-    driver.set_page_load_timeout(15)
-    return driver
-
   #@abstractmethod
   def login(self):
     print('in {} login'.format(self.asp_name))
@@ -337,7 +329,10 @@ class Rakuten():
     def get_report(self):
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
-        driver = webdriver.Chrome(options)
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        driver = webdriver.Chrome(options=options)
+
         driver.implicitly_wait(15)
         driver.set_page_load_timeout(15)
 
@@ -364,7 +359,8 @@ class Rakuten():
             login_button.click()
         except:
             pass
-
+        
+        sleep(3)
         driver.get('https://affiliate.rakuten.co.jp/report/monthly')
 
         report_table = driver.find_element(by = By.XPATH,value='//*[@id="monthly_report_table"]')
@@ -384,7 +380,10 @@ class Amazon():
     def get_report(self):
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
-        driver = webdriver.Chrome(options)
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
         driver.set_page_load_timeout(15)
 
@@ -414,9 +413,11 @@ class Amazon():
         driver.get(report_url)
 
         sales_selector = '//*[@id="reports-commission-earnings-header"]'
+        sleep(5)
         sales_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, sales_selector))
         ).click()
+        
 
         #ホバーして要素を取得
 
@@ -436,18 +437,26 @@ class Amazon():
         driver_action.move_to_element(date_box).perform()
 
         #今月を選択してアプライ
+        sleep(3)
         this_month_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, this_month_select))
         ).click()
-
+        
+        sleep(3)
         this_month_elem_2 = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, this_month))
         ).click()
-
+        
+        sleep(3)
         aply_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, aply_buttom))
-        ).click()
-
+        )
+        
+        try:
+            aply_elem.click()
+        except:
+            pass
+        
         report_table_selector = '//*[@id="ac-report-commission-simple-earnings-tbl"]/div[5]/table'
 
         sleep(10)
@@ -484,7 +493,10 @@ class Afb():
     def get_report(self):
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
-        driver = webdriver.Chrome(options)
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        driver = webdriver.Chrome(options=options)
+
         driver.implicitly_wait(15)
         driver.set_page_load_timeout(15)
 
@@ -553,7 +565,9 @@ class ValueCommerce():
     def get_report(self):
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
-        driver = webdriver.Chrome(options)
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
         driver.set_page_load_timeout(15)
 
@@ -654,7 +668,9 @@ class AccessTrade():
     def get_report(self):
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
-        driver = webdriver.Chrome(options)
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
         driver.set_page_load_timeout(15)
 

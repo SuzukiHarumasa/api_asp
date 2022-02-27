@@ -13,17 +13,18 @@ import time
 from modules import ASP,A8,Fukurou,Rakuten,Amazon,Afb,ValueCommerce,AccessTrade,asp_instance,GSheets,get_daliy_sales
 
 #なぜか一回開かないと動かない
-driver = webdriver.Chrome()
-driver.close()
+# driver = webdriver.Chrome(executable_path = path)
+# driver.close()
+
 
 df_dict = {
-'アマゾン':'data_amazon',
  '楽天':'data_rakuten',
  'バリューコマース':'data_valuecomm',
  'A8':'data_a8',
  'アクトレ':'data_access',
  'afb':'data_afb',
- 'フクロウ':'data_fukuro'
+ 'フクロウ':'data_fukuro',
+ 'アマゾン':'data_amazon',
  }
 
 asps = df_dict.keys()
