@@ -413,11 +413,9 @@ class Amazon():
         driver.get(report_url)
 
         sales_selector = '//*[@id="reports-commission-earnings-header"]'
-        sleep(5)
         sales_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, sales_selector))
         ).click()
-        
 
         #ホバーして要素を取得
 
@@ -440,12 +438,20 @@ class Amazon():
         sleep(3)
         this_month_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, this_month_select))
-        ).click()
+        )
+        try:
+            this_month_elem.click()
+        except:
+            pass
         
         sleep(3)
-        this_month_elem_2 = WebDriverWait(driver, 20).until(
-            EC.presence_of_element_located((By.XPATH, this_month))
-        ).click()
+        # this_month_elem_2 = WebDriverWait(driver, 20).until(
+        #     EC.presence_of_element_located((By.XPATH, this_month))
+        # )
+        # try:
+        #     this_month_elem_2.click()
+        # except:
+        #     pass
         
         sleep(3)
         aply_elem = WebDriverWait(driver, 20).until(
@@ -456,7 +462,7 @@ class Amazon():
             aply_elem.click()
         except:
             pass
-        
+
         report_table_selector = '//*[@id="ac-report-commission-simple-earnings-tbl"]/div[5]/table'
 
         sleep(10)
@@ -485,6 +491,8 @@ class Amazon():
         rewards = int(float(row.replace(',', '').replace('¥', '')))
         row = rewards
         return row
+
+
     
 ############################################################################
 #afb
@@ -815,8 +823,6 @@ class GSheets:
     def get_data_gsh(self, phrase):
         tmp_worksheets_title_list = self.get_sheet_name()
         SP_SHEET = phrase
-        if phrase not in tmp_worksheets_title_list:
-            ws = self.add_KW(phrase)
             
         ws = self.sh.worksheet(SP_SHEET)
 
@@ -837,6 +843,7 @@ class GSheets:
         if len(df_gsh) > 0:
             #日付の確認
             df_gsh['日付'] = pd.to_datetime(df_gsh['日付'])
+            df['日付'] = pd.to_datetime(df['日付'])
             old_month=df_gsh['日付'].tail(1).item().month
             new_month = df['日付'].tail(1).item().month
 
@@ -856,7 +863,6 @@ class GSheets:
             set_with_dataframe(ws, df_merge, row = 1, col = 1)
         except:
             print('データが取得できませんでした')
-            
 
 key = '17luM78MU8aEOqKIOd8F7490pol1HToe0NK12K_9pEVc'
 gs = GSheets(key)
