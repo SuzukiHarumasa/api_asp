@@ -423,7 +423,7 @@ class Amazon():
         date_select_selector = '//*[@id="ac-daterange-container-report-timeInterval"]/div'
 
         this_month_select = '//*[@id="a-autoid-2-announce"]'
-        this_month = '//*[@id="ac-daterange-preset-report-timeInterval_2"]'
+        this_month = '//*[@id="ac-daterange-preset-report-timeInterval_2"]/span'
         aply_buttom = '//*[@id="ac-daterange-ok-button-report-timeInterval-announce"]'
 
         date_box = driver.find_element_by_xpath(date_select_selector)
@@ -445,13 +445,13 @@ class Amazon():
             pass
         
         sleep(3)
-        # this_month_elem_2 = WebDriverWait(driver, 20).until(
-        #     EC.presence_of_element_located((By.XPATH, this_month))
-        # )
-        # try:
-        #     this_month_elem_2.click()
-        # except:
-        #     pass
+        this_month_elem_2 = WebDriverWait(driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, this_month))
+        )
+        try:
+            this_month_elem_2.click()
+        except:
+            pass
         
         sleep(3)
         aply_elem = WebDriverWait(driver, 20).until(
@@ -491,7 +491,6 @@ class Amazon():
         rewards = int(float(row.replace(',', '').replace('¥', '')))
         row = rewards
         return row
-
 
     
 ############################################################################
