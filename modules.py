@@ -11,17 +11,11 @@ import pandas as pd
 import time
 
 from abc import ABCMeta, abstractmethod
-from selenium.common.exceptions import TimeoutException
 from time import sleep
 import gspread
 from gspread.spreadsheet import Spreadsheet
-import pandas as pd
-import datetime
-import webbrowser
 from apiclient import discovery  # pip install google-api-python-client
 from google.oauth2.service_account import Credentials
-import requests
-from bs4 import BeautifulSoup
 from typing import Union, List, Optional
 from gspread_dataframe import set_with_dataframe
 
@@ -218,24 +212,7 @@ class A8(ASP):
       self.result_df[col]=self.result_df[col].astype('str').str.split(pat='円', expand=True)[0]
       
     self.result_df['日付'] = pd.to_datetime(self.result_df['日付'], format = '%Y/%m/%d')
-    self.result_df = self.result_df.sort_values('日付').reset_index(drop = True)
-    
-    # start_date = datetime.date(self.year, self.month,1)
-    # end_date = datetime.date(self.year, self.month,1) + relativedelta(months = 1, days = -1)
-    
-    # def daterange(_start, _end):
-    #   for n in range((_end - _start).days+1):
-    #       yield _start + timedelta(n)
-
-    # date_list = []
-    # for i in daterange(start_date, end_date):
-    #     date_list.append(i)
-        
-    # df_date =pd.DataFrame(data = date_list, index = range(len(date_list)), columns=['年月日年月日'])
-    # df_date['年月日年月日']=pd.to_datetime(df_date['年月日年月日'])
-    
-    # self.result_df = pd.merge(df_date, self.result_df,on = '年月日年月日', how = 'left').fillna(0)
-    
+    self.result_df = self.result_df.sort_values('日付').reset_index(drop = True)  
     
     return self.result_df
     
@@ -258,7 +235,6 @@ class A8(ASP):
 
     row['発生報酬額'] = rewards
     return row
-
 #######################################################33
 #フクロウ
 class Fukurou(ASP):
@@ -372,6 +348,7 @@ class Rakuten():
         report_table['日付']=pd.to_datetime(report_table['日付'])
         
         return report_table
+
 
 ##########################
 #アマゾン
@@ -515,11 +492,11 @@ class Afb():
             EC.presence_of_element_located((By.XPATH, '//*[@id="formPartnerId"]'))
         ).send_keys('afbcurumi')
 
-
         # 1-3. パスワードを入力（要素が出現するまで最大20秒待つ)
         password_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="formPartnerPassword"]'))
         ).send_keys('curumi1031')
+
 
         login_button = driver.find_element_by_xpath('//*[@id="gatsby-focus-wrapper"]/div[1]/div[1]/div/div/div[1]/form/div[1]/div[3]/button')
         try:
@@ -564,6 +541,7 @@ class Afb():
         rewards = int(float(row.replace(',', '').replace('¥', '')))
         row = rewards
         return row
+
         
 ################################################################
 #バリューコマース
@@ -626,17 +604,31 @@ class ValueCommerce():
         sleep(1)
         netr_all_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, netr_selector))
-        ).click()
-
+        )
+        try:
+            netr_all_elem.click()
+        except:
+            pass
+        
         sleep(1)
         job_media_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, job_media_selector))
-        ).click()
+        )
+
+        try:
+            job_media_elem.click()
+        except:
+            pass
 
         sleep(1)
         meneyr_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, meneyr_selector))
-        ).click()
+        )
+        
+        try:
+            meneyr_elem.click()
+        except:
+            pass
 
         #どこかクリックしてアプライ
         any_elem = WebDriverWait(driver, 20).until(
@@ -839,29 +831,48 @@ class GSheets:
     def return_data(self,phrase, df: Optional[pd.DataFrame]):
         ws, df_gsh = self.get_data_gsh(phrase)
         
+        #全て値が0の行を削除
+        # df = self.remove_all_zero_row(df)
+        
         if len(df_gsh) > 0:
             #日付の確認
-            df_gsh['日付'] = pd.to_datetime(df_gsh['日付'])
-            df['日付'] = pd.to_datetime(df['日付'])
-            old_month=df_gsh['日付'].tail(1).item().month
-            new_month = df['日付'].tail(1).item().month
+            # df_gsh['日付'] = pd.to_datetime(df_gsh['日付'])
+            # df['日付'] = pd.to_datetime(df['日付'])
+            # old_month=df_gsh['日付'].tail(1).item().month
+            # old_day=df_gsh['日付'].tail(1).item().day
+            # new_month = df['日付'].tail(1).item().month
+            # new_day = df['日付'].tail(1).item().day
+            
+            df_merge=df_gsh.append(df)
+            df_merge['日付']=pd.to_datetime(df_merge['日付'])
+            df_merge=df_merge.drop_duplicates(subset='日付',keep='last')
+            
+            df_merge=df_merge.sort_values('日付').reset_index(drop = True)
 
-            if old_month == new_month:
-                df_merge = df
-            else:
-                df_merge=pd.concat([df_gsh,df])
-                df_merge['日付']=pd.to_datetime(df_merge['日付'])
-                df_merge=df_merge.sort_values('日付').reset_index(drop = True)
-
-    
-            # append_df = pd.concat([df_gsh, df])
+            # if (old_month == new_month) and (old_day == new_day):
+            #     print('同じ日付！')
+                
+            # else:
+            #     print('別の日付！')
+            #     df_merge=pd.concat([df_gsh,df])
+            #     df_merge['日付']=pd.to_datetime(df_merge['日付'])
+            #     df_merge=df_merge.sort_values('日付').reset_index(drop = True)
         else:
+            print('データなし')
             df_merge = df
             
         try:
             set_with_dataframe(ws, df_merge, row = 1, col = 1)
         except:
             print('データが取得できませんでした')
+        
+    def remove_all_zero_row(self, df):
+        """全て0の行を削除"""
+        df = df.copy()
+        for row in df.index:
+            if (df.loc[row] == 0).all():
+                df.drop(row, axis=0, inplace=True)
+        return df
 
 key = '17luM78MU8aEOqKIOd8F7490pol1HToe0NK12K_9pEVc'
 gs = GSheets(key)

@@ -1,9 +1,7 @@
+#-*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-# 遷移したページの状態を確認
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 import pandas as pd
