@@ -592,9 +592,9 @@ class ValueCommerce():
 
 
         site_select_selector = '//*[@id="globalHeader"]/nav/div[3]/div/span/div/span'#クリック
-        netr_selector = '//*[@id="ネットR"]/span[1]/span'
-        job_media_selector = '//*[@id="しごとメディア"]/span[1]/span'
-        meneyr_selector = '//*[@id="マネーR"]/span[1]/span'
+        netr_selector = '//*[@id="ネットR"]/span[2]'
+        job_media_selector = '//*[@id="しごとメディア"]/span[2]'
+        meneyr_selector = '//*[@id="マネーR"]/span[2]'
         monocil_selector = '//*[@id="モノシル"]/span[1]/span'#モノシルをクリック
         click_any ='//*[@id="report"]/div[3]/div[2]/div[1]/ul/li[3]/label'#適当なところをクリック
 
@@ -604,8 +604,8 @@ class ValueCommerce():
             EC.presence_of_element_located((By.XPATH, site_select_selector))
         ).click()
 
-        #モノシルを選択
-        sleep(1)
+        #ネットRを選択
+        sleep(3)
         netr_all_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, netr_selector))
         )
@@ -613,7 +613,7 @@ class ValueCommerce():
             netr_all_elem.click()
         except:
             pass
-        
+        #ジョブメディアを選択
         sleep(1)
         job_media_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, job_media_selector))
@@ -623,7 +623,8 @@ class ValueCommerce():
             job_media_elem.click()
         except:
             pass
-
+        
+        #マネーRを選択
         sleep(1)
         meneyr_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, meneyr_selector))
@@ -664,6 +665,7 @@ class ValueCommerce():
         rewards = int(float(row.replace(',', '').replace('¥', '')))
         row = rewards
         return row
+
 
 ################################################################
 #アクセストレード
@@ -813,11 +815,18 @@ class GSheets:
         tmp_worksheets_title_list = [worksheet.title for worksheet in worksheets]
         return tmp_worksheets_title_list
     
+   ### 検索KWを追加###
+    def add_sheet(self, date):
+        ws = self.sh.add_worksheet(title=date, rows=1000, cols=20)
+        return  ws
+    
     ###### gsheet からのデータ取得######
 
-    def get_data_gsh(self, phrase):
+    def get_data_gsh(self, date):
         tmp_worksheets_title_list = self.get_sheet_name()
-        SP_SHEET = phrase
+        SP_SHEET = date
+        if date not in tmp_worksheets_title_list:
+            ws = self.add_sheet(date)
             
         ws = self.sh.worksheet(SP_SHEET)
 
@@ -835,51 +844,48 @@ class GSheets:
     def return_data(self,phrase, df: Optional[pd.DataFrame]):
         ws, df_gsh = self.get_data_gsh(phrase)
         
-        #全て値が0の行を削除
-        # df = self.remove_all_zero_row(df)
-        
         if len(df_gsh) > 0:
             #日付の確認
-            # df_gsh['日付'] = pd.to_datetime(df_gsh['日付'])
-            # df['日付'] = pd.to_datetime(df['日付'])
-            # old_month=df_gsh['日付'].tail(1).item().month
-            # old_day=df_gsh['日付'].tail(1).item().day
-            # new_month = df['日付'].tail(1).item().month
-            # new_day = df['日付'].tail(1).item().day
-            
-            df_merge=df_gsh.append(df)
-            df_merge['日付']=pd.to_datetime(df_merge['日付'])
-            df_merge=df_merge.drop_duplicates(subset='日付',keep='last')
-            
-            df_merge=df_merge.sort_values('日付').reset_index(drop = True)
+            df_gsh['日付'] = pd.to_datetime(df_gsh['日付'])
+            old_month=df_gsh['日付'].tail(1).item().month
+            new_month = df['日付'].tail(1).item().month
 
-            # if (old_month == new_month) and (old_day == new_day):
-            #     print('同じ日付！')
-                
-            # else:
-            #     print('別の日付！')
-            #     df_merge=pd.concat([df_gsh,df])
-            #     df_merge['日付']=pd.to_datetime(df_merge['日付'])
-            #     df_merge=df_merge.sort_values('日付').reset_index(drop = True)
+            if old_month == new_month:
+                df_merge = df
+            else:
+                df_merge=pd.concat([df_gsh,df])
+                df_merge['日付']=pd.to_datetime(df_merge['日付'])
+                df_merge=df_merge.sort_values('日付').reset_index(drop = True)
+
+    
+            # append_df = pd.concat([df_gsh, df])
         else:
-            print('データなし')
             df_merge = df
             
         try:
             set_with_dataframe(ws, df_merge, row = 1, col = 1)
         except:
             print('データが取得できませんでした')
-        
-    def remove_all_zero_row(self, df):
-        """全て0の行を削除"""
-        df = df.copy()
-        for row in df.index:
-            if (df.loc[row] == 0).all():
-                df.drop(row, axis=0, inplace=True)
-        return df
+            
+amazon_key = '1LvQFK8cHl8ogFVJVa9PhOFtO05gfR-7_dOJaiLucBew'
+rakuten_key = '1A5vJkEKNG1IBHXN2oUioDlQtXJEfLCEVMSJ7DMxdaKc'
+valuecomm_key = '1kI0sZayd0yA0EuzIlVOQ4zcwwAX1_mdK2y-YCPb718o'
+a8_key = '1haELIWmh_XQwfIGus9PdBLcfk6ag98EwkEQ_p-aweZ4'
+access_key = '1sP2xLRNJHMwuLkuqwlCtSqBKDejV6Q_SZpD3W9rwCC8'
+afb_key = '18Mpz4awzeV9Yfzmsg9p5QxEgv6LucsPBhOnNRk_ie3U'
+fukuro_key = '16odHyCzbgwk9r5eaN7pocqkVFL-rNEcqe00EkvGDN9M'
 
-key = '17luM78MU8aEOqKIOd8F7490pol1HToe0NK12K_9pEVc'
-gs = GSheets(key)
+key_dict = {
+
+ '楽天':rakuten_key,
+ 'バリューコマース':valuecomm_key,
+ 'A8':a8_key,
+ 'アクトレ':access_key,
+ 'afb':afb_key,
+ 'フクロウ':fukuro_key,
+ 'アマゾン':amazon_key,
+ }
+
 
 def get_daliy_sales(asp_name):
     my_asp = asp_instance(asp_name, credentials[asp_name]['login_id'], credentials[asp_name]['password'])
@@ -891,7 +897,11 @@ def get_daliy_sales(asp_name):
         my_asp.login()
         my_asp.get_data()
         table_df = my_asp.prettify_data()
-    gs.return_data(df_dict[asp_name], table_df)
+    
+    this_date = table_df['日付'].head(1).item().strftime('%Y-%m')
+    
+    gs = GSheets(key_dict[asp_name])
+    gs.return_data(this_date, table_df)
     
     return table_df
 
