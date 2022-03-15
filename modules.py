@@ -74,10 +74,17 @@ class ASP(metaclass=ABCMeta):
     self.report_url = report_url
     # self.driver    = self.prepare_driver()
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-    self.driver = webdriver.Chrome(options=options)
+    #参考　https://netwiz.jp/python3-web-browser/#Web-2
+    # User-Agent
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36"
+
+    # オプション設定
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    options.add_argument('--user-agent=' + user_agent)
+    options.add_argument('--lang=ja-JP')
+    
+    driver = webdriver.Chrome(options=options)
     self.driver.implicitly_wait(15)
     self.driver.set_page_load_timeout(15)
     self.driver.set_window_size('1200', '10000')
@@ -304,9 +311,16 @@ class Rakuten():
     
     def get_report(self):
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
+        #参考　https://netwiz.jp/python3-web-browser/#Web-2
+        # User-Agent
+        user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36"
+
+        # オプション設定
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument('--user-agent=' + user_agent)
+        options.add_argument('--lang=ja-JP')
+        
         driver = webdriver.Chrome(options=options)
 
         driver.implicitly_wait(15)
@@ -356,10 +370,16 @@ class Amazon():
 
     def get_report(self):
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
+        #参考　https://netwiz.jp/python3-web-browser/#Web-2
+        # User-Agent
+        user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36"
+
+        # オプション設定
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument('--user-agent=' + user_agent)
+        options.add_argument('--lang=ja-JP')
+        
         driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
         driver.set_page_load_timeout(15)
@@ -390,10 +410,12 @@ class Amazon():
         driver.get(report_url)
 
         sales_selector = '//*[@id="reports-commission-earnings-header"]'
+        
+        
         sales_elem = WebDriverWait(driver, 20).until(
-            EC.presence_of_element_located((By.XPATH, sales_selector))
-        )
-        try:
+            EC.presence_of_element_located((By.XPATH, sales_selector)))
+        
+        try:    
             sales_elem.click()
         except:
             pass 
@@ -480,9 +502,16 @@ class Amazon():
 class Afb():
     def get_report(self):
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
+        #参考　https://netwiz.jp/python3-web-browser/#Web-2
+        # User-Agent
+        user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36"
+
+        # オプション設定
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument('--user-agent=' + user_agent)
+        options.add_argument('--lang=ja-JP')
+        
         driver = webdriver.Chrome(options=options)
 
         driver.implicitly_wait(15)
@@ -553,9 +582,16 @@ class ValueCommerce():
     
     def get_report(self):
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
+        #参考　https://netwiz.jp/python3-web-browser/#Web-2
+        # User-Agent
+        user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36"
+
+        # オプション設定
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument('--user-agent=' + user_agent)
+        options.add_argument('--lang=ja-JP')
+        
         driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
         driver.set_page_load_timeout(15)
@@ -672,9 +708,16 @@ class ValueCommerce():
 class AccessTrade():
     def get_report(self):
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
+        #参考　https://netwiz.jp/python3-web-browser/#Web-2
+        # User-Agent
+        user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36"
+
+        # オプション設定
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument('--user-agent=' + user_agent)
+        options.add_argument('--lang=ja-JP')
+        
         driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
         driver.set_page_load_timeout(15)
