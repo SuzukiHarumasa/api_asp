@@ -84,7 +84,7 @@ class ASP(metaclass=ABCMeta):
     options.add_argument('--user-agent=' + user_agent)
     options.add_argument('--lang=ja-JP')
     
-    driver = webdriver.Chrome(options=options)
+    self.driver = webdriver.Chrome(options=options)
     self.driver.implicitly_wait(15)
     self.driver.set_page_load_timeout(15)
     self.driver.set_window_size('1200', '10000')
