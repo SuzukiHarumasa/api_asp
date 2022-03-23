@@ -83,6 +83,7 @@ class ASP(metaclass=ABCMeta):
     options.add_argument("--headless")
     options.add_argument('--user-agent=' + user_agent)
     options.add_argument('--lang=ja-JP')
+    options.add_argument("--disable-dev-shm-usage")
     
     self.driver = webdriver.Chrome(options=options)
     self.driver.implicitly_wait(15)
@@ -282,20 +283,6 @@ class Fukurou(ASP):
     self.result_df['日付']=pd.to_datetime(self.result_df['日付'])
     self.result_df= self.result_df.sort_values('日付').reset_index(drop = True)
 
-    # start_date = datetime.date(self.year, self.month,1)
-    # end_date = datetime.date(self.year, self.month,1) + relativedelta(months = 1, days = -1)
-    
-    # def daterange(_start, _end):
-    #   for n in range((_end - _start).days+1):
-    #       yield _start + timedelta(n)
-
-    # date_list = []
-    # for i in daterange(start_date, end_date):
-    #     date_list.append(i)
-        
-    # df_date =pd.DataFrame(data = date_list, index = range(len(date_list)), columns=['日付'])
-    # df_date['日付']=pd.to_datetime(df_date['日付'])
-    # self.result_df = pd.merge(df_date, self.result_df,on = '日付', how = 'left').fillna(0)
 
     return self.result_df
 
@@ -386,6 +373,7 @@ class Amazon():
         options.add_argument("--headless")
         options.add_argument('--user-agent=' + user_agent)
         options.add_argument('--lang=ja-JP')
+        options.add_argument("--disable-dev-shm-usage")
         
         driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
@@ -518,6 +506,7 @@ class Afb():
         options.add_argument("--headless")
         options.add_argument('--user-agent=' + user_agent)
         options.add_argument('--lang=ja-JP')
+        options.add_argument("--disable-dev-shm-usage")
         
         driver = webdriver.Chrome(options=options)
 
@@ -598,6 +587,7 @@ class ValueCommerce():
         options.add_argument("--headless")
         options.add_argument('--user-agent=' + user_agent)
         options.add_argument('--lang=ja-JP')
+        options.add_argument("--disable-dev-shm-usage")
         
         driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
@@ -724,6 +714,7 @@ class AccessTrade():
         options.add_argument("--headless")
         options.add_argument('--user-agent=' + user_agent)
         options.add_argument('--lang=ja-JP')
+        options.add_argument("--disable-dev-shm-usage")
         
         driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
