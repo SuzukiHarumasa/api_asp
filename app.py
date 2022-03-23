@@ -55,6 +55,6 @@ if button:
     
     st.write('更新完了！')
     st.image(piyotaso_uresi,width=300)
-     
+    
 else:
     pass
