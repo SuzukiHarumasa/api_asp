@@ -320,6 +320,7 @@ class Rakuten():
         options.add_argument("--headless")
         options.add_argument('--user-agent=' + user_agent)
         options.add_argument('--lang=ja-JP')
+        options.add_argument("--disable-dev-shm-usage")
         
         driver = webdriver.Chrome(options=options)
 
