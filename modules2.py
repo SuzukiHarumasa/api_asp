@@ -80,9 +80,6 @@ class ASP(metaclass=ABCMeta):
 
     # オプション設定
     options = webdriver.ChromeOptions()
-    options.add_argument('--user-agent=' + user_agent)
-    options.add_argument('--lang=ja-JP')
-    options.add_argument("--disable-dev-shm-usage")
 
     
     self.driver = webdriver.Chrome(options=options)
@@ -305,9 +302,6 @@ class Rakuten():
         # オプション設定
         options = webdriver.ChromeOptions()
 
-        options.add_argument('--user-agent=' + user_agent)
-        options.add_argument('--lang=ja-JP')
-        options.add_argument("--disable-dev-shm-usage")
         
         driver = webdriver.Chrome(options=options)
 
@@ -370,9 +364,7 @@ class Amazon():
 
         # オプション設定
         options = webdriver.ChromeOptions()
-        options.add_argument('--user-agent=' + user_agent)
-        options.add_argument('--lang=ja-JP')
-        options.add_argument("--disable-dev-shm-usage")
+
         
         driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
@@ -458,9 +450,7 @@ class Afb():
 
         # オプション設定
         options = webdriver.ChromeOptions()
-        options.add_argument('--user-agent=' + user_agent)
-        options.add_argument('--lang=ja-JP')
-        options.add_argument("--disable-dev-shm-usage")
+
         
         driver = webdriver.Chrome(options=options)
 
@@ -538,9 +528,7 @@ class ValueCommerce():
 
         # オプション設定
         options = webdriver.ChromeOptions()
-        options.add_argument('--user-agent=' + user_agent)
-        options.add_argument('--lang=ja-JP')
-        options.add_argument("--disable-dev-shm-usage")
+
         
         driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
@@ -664,9 +652,6 @@ class AccessTrade():
 
         # オプション設定
         options = webdriver.ChromeOptions()
-        options.add_argument('--user-agent=' + user_agent)
-        options.add_argument('--lang=ja-JP')
-        options.add_argument("--disable-dev-shm-usage")
         
         driver = webdriver.Chrome(options=options)
         driver.implicitly_wait(15)
