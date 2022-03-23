@@ -352,6 +352,7 @@ class Rakuten():
             pass
         
         sleep(3)
+        driver.set_window_size('1200', '10000')
         driver.get('https://affiliate.rakuten.co.jp/report/monthly')
 
         report_table = driver.find_element(by = By.XPATH,value='//*[@id="monthly_report_table"]')
@@ -359,6 +360,8 @@ class Rakuten():
         report_table = pd.read_html(report_table.get_attribute('outerHTML'))[0]
         
         report_table.columns = ['日付','成果報酬','クリック数','売上件数','売上金額']
+        print(report_table)
+    
         try:
         
             report_table['日付']=pd.to_datetime(report_table['日付'])
@@ -945,6 +948,7 @@ def get_daliy_sales(asp_name):
         my_asp.get_data()
         table_df = my_asp.prettify_data()
     
+    print(table_df)
     this_date = table_df['日付'].head(1).item().strftime('%Y-%m')
     
     gs = GSheets(key_dict[asp_name])
