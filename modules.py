@@ -401,13 +401,13 @@ class Amazon():
 
         sleep(5)
         report_url = 'https://affiliate.amazon.co.jp/home/reports'
-        driver.set_window_size('1200', '10000')
+        
 
         driver.get(report_url)
 
         sales_selector = '//*[@id="reports-commission-earnings-header"]'
         
-        
+        driver.set_window_size('12000', '20000')
         sales_elem = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, sales_selector)))
         
@@ -416,51 +416,6 @@ class Amazon():
         except:
             pass 
 
-        #ホバーして要素を取得
-
-        #####要素を取得
-        # date_select_selector = '//*[@id="ac-daterange-container-report-timeInterval"]/div'
-
-        # this_month_select = '//*[@id="a-autoid-2-announce"]'
-        # this_month = '//*[@id="ac-daterange-preset-report-timeInterval_2"]/span'
-        # aply_buttom = '//*[@id="ac-daterange-ok-button-report-timeInterval-announce"]'
-
-        # date_box = driver.find_element_by_xpath(date_select_selector)
-        
-        # #ActionChainsのインスタンスを作成
-        # driver_action = webdriver.ActionChains(driver)
-        
-        # #perfom処理でホバー
-        # driver_action.move_to_element(date_box).perform()
-
-        # #今月を選択してアプライ
-        # sleep(3)
-        # this_month_elem = WebDriverWait(driver, 20).until(
-        #     EC.presence_of_element_located((By.XPATH, this_month_select))
-        # )
-        # try:
-        #     this_month_elem.click()
-        # except:
-        #     pass
-        
-        # sleep(3)
-        # this_month_elem_2 = WebDriverWait(driver, 20).until(
-        #     EC.presence_of_element_located((By.XPATH, this_month))
-        # )
-        # try:
-        #     this_month_elem_2.click()
-        # except:
-        #     pass
-        
-        # sleep(3)
-        # aply_elem = WebDriverWait(driver, 20).until(
-        #     EC.presence_of_element_located((By.XPATH, aply_buttom))
-        # )
-        
-        # try:
-        #     aply_elem.click()
-        # except:
-        #     pass
 
         report_table_selector = '//*[@id="ac-report-commission-simple-earnings-tbl"]/div[5]/table'
 
