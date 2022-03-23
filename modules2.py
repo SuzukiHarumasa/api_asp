@@ -80,10 +80,10 @@ class ASP(metaclass=ABCMeta):
 
     # オプション設定
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
     options.add_argument('--user-agent=' + user_agent)
     options.add_argument('--lang=ja-JP')
     options.add_argument("--disable-dev-shm-usage")
+
     
     self.driver = webdriver.Chrome(options=options)
     self.driver.implicitly_wait(15)
@@ -304,7 +304,7 @@ class Rakuten():
 
         # オプション設定
         options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
+
         options.add_argument('--user-agent=' + user_agent)
         options.add_argument('--lang=ja-JP')
         options.add_argument("--disable-dev-shm-usage")
@@ -370,7 +370,6 @@ class Amazon():
 
         # オプション設定
         options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
         options.add_argument('--user-agent=' + user_agent)
         options.add_argument('--lang=ja-JP')
         options.add_argument("--disable-dev-shm-usage")
@@ -459,7 +458,6 @@ class Afb():
 
         # オプション設定
         options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
         options.add_argument('--user-agent=' + user_agent)
         options.add_argument('--lang=ja-JP')
         options.add_argument("--disable-dev-shm-usage")
@@ -540,7 +538,6 @@ class ValueCommerce():
 
         # オプション設定
         options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
         options.add_argument('--user-agent=' + user_agent)
         options.add_argument('--lang=ja-JP')
         options.add_argument("--disable-dev-shm-usage")
@@ -667,7 +664,6 @@ class AccessTrade():
 
         # オプション設定
         options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
         options.add_argument('--user-agent=' + user_agent)
         options.add_argument('--lang=ja-JP')
         options.add_argument("--disable-dev-shm-usage")

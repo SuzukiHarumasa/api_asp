@@ -10,7 +10,7 @@ import pandas as pd
 import time
 
 #自作モジュールのインポート
-from modules import ASP,A8,Fukurou,Rakuten,Amazon,Afb,ValueCommerce,AccessTrade,asp_instance,GSheets,get_daliy_sales
+from modules2 import ASP,A8,Fukurou,Rakuten,Amazon,Afb,ValueCommerce,AccessTrade,asp_instance,GSheets,get_daliy_sales
 
 amazon_key = '1LvQFK8cHl8ogFVJVa9PhOFtO05gfR-7_dOJaiLucBew'
 rakuten_key = '1A5vJkEKNG1IBHXN2oUioDlQtXJEfLCEVMSJ7DMxdaKc'
