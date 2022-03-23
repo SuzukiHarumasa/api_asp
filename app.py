@@ -1,4 +1,5 @@
 import streamlit as st
+from PIL import Image
 #-*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -40,14 +41,20 @@ df_dict = {
  'アマゾン':'data_amazon',
  }
 
-st.write('# ASP自動更新ツールです〜')
+piyotaso = Image.open('./static/piyotaso.png')
+piyotaso_uresi = Image.open('./static/piyotaso_uresi.png')
 
-if st.button('クリックしてください〜'):
+st.write('# ASP自動更新ツールです〜')
+button = st.button('クリックしてください〜')
+st.image(piyotaso,width=300)
+
+if button:
     asps = df_dict.keys()
     for asp_name in asps:
         df_ = get_daliy_sales(asp_name)
     
     st.write('更新完了！')
+    st.image(piyotaso_uresi,width=300)
      
 else:
     pass
