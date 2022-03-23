@@ -401,6 +401,7 @@ class Amazon():
 
         sleep(5)
         report_url = 'https://affiliate.amazon.co.jp/home/reports'
+        driver.set_window_size('1200', '10000')
 
         driver.get(report_url)
 
