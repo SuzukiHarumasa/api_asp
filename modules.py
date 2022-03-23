@@ -359,8 +359,11 @@ class Rakuten():
         report_table = pd.read_html(report_table.get_attribute('outerHTML'))[0]
         
         report_table.columns = ['日付','成果報酬','クリック数','売上件数','売上金額']
+        try:
         
-        report_table['日付']=pd.to_datetime(report_table['日付'])
+            report_table['日付']=pd.to_datetime(report_table['日付'])
+        except:
+            pass
         
         return report_table
 
